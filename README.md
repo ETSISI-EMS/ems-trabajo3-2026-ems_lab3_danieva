@@ -8,5 +8,3 @@ actuando como *DevOps engineer* , los alumnos deberán preparar un pipeline capa
 que, en el caso de no alcanzar unos mínimos de calidad, se prevenga su incorporación a la rama principal. Segundo,
 actuando como *desarrolladores*, los alumnos deberán probar su pipeline y refactorizar el código para que cumpla los
 estándares de calidad establecidos previamente. 
-
-## Anotaciones del laboratorio
