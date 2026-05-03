@@ -15,9 +15,9 @@ public class Localizacion {
 	public Localizacion() {
 		super();
 		this.lista = new LinkedList<PosicionPersona>();
-	};
-	
-	public LinkedList<PosicionPersona> getLista() {
+	}
+
+    public LinkedList<PosicionPersona> getLista() {
 		return lista;
 	}
 

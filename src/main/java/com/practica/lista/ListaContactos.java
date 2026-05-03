@@ -3,6 +3,7 @@ package com.practica.lista;
 import com.practica.genericas.Coordenada;
 import com.practica.genericas.FechaHora;
 import com.practica.genericas.PosicionPersona;
+import java.util.function.Function;
 
 public class ListaContactos {
 	private NodoTemporal lista;
@@ -93,27 +94,27 @@ public class ListaContactos {
 			
 		}
 	}
-	
+
 	private boolean buscarPersona (String documento, NodoPersonas nodo) {
 		NodoPersonas aux = nodo;
 		while(aux!=null) {
 			if(aux.getDocumento().equals(documento)) {
-				return true;				
+				return true;
 			}else {
 				aux = aux.getSiguiente();
 			}
 		}
 		return false;
 	}
-	
+
 	private void insertarPersona (String documento, NodoPersonas nodo) {
 		NodoPersonas aux = nodo, nuevo = new NodoPersonas(documento, null);
-		while(aux.getSiguiente()!=null) {				
-			aux = aux.getSiguiente();				
+		while(aux.getSiguiente()!=null) {
+			aux = aux.getSiguiente();
 		}
-		aux.setSiguiente(nuevo);		
+		aux.setSiguiente(nuevo);
 	}
-	
+
 	public int personasEnCoordenadas () {
 		NodoPosicion aux = this.lista.getListaCoordenadas();
 		if(aux==null)
@@ -127,7 +128,7 @@ public class ListaContactos {
 			return cont;
 		}
 	}
-	
+
 	public int tamanioLista () {
 		return this.size;
 	}
@@ -144,50 +145,34 @@ public class ListaContactos {
 	 * coordenadas, no tienen una utilidad en sí misma, más allá de comprobar que
 	 * nuestra lista funciona de manera correcta.
 	 */
-	public int numPersonasEntreDosInstantes(FechaHora inicio, FechaHora fin) {
-		if(this.size==0)
+	// Método privado común
+	private int contarEntreDosInstantes(FechaHora inicio, FechaHora fin, Function<NodoPosicion, Integer> extractor) {
+		if (this.size == 0)
 			return 0;
+
 		NodoTemporal aux = lista;
 		int cont = 0;
-		int a;
-		cont = 0;
-		while(aux!=null) {
-			if(aux.getFecha().compareTo(inicio)>=0 && aux.getFecha().compareTo(fin)<=0) {
+
+		while (aux != null) {
+			if (aux.getFecha().compareTo(inicio) >= 0 && aux.getFecha().compareTo(fin) <= 0) {
 				NodoPosicion nodo = aux.getListaCoordenadas();
-				while(nodo!=null) {
-					cont = cont + nodo.getNumPersonas();
+				while (nodo != null) {
+					cont = cont + extractor.apply(nodo); // <-- aquí está la diferencia
 					nodo = nodo.getSiguiente();
-				}				
-				aux = aux.getSiguiente();
-			}else {
-				aux=aux.getSiguiente();
+				}
 			}
+			aux = aux.getSiguiente();
 		}
 		return cont;
 	}
-	
-	
-	
+
+	// Los dos métodos públicos ahora delegan en el común
+	public int numPersonasEntreDosInstantes(FechaHora inicio, FechaHora fin) {
+		return contarEntreDosInstantes(inicio, fin, nodo -> nodo.getNumPersonas());
+	}
+
 	public int numNodosCoordenadaEntreDosInstantes(FechaHora inicio, FechaHora fin) {
-		if(this.size==0)
-			return 0;
-		NodoTemporal aux = lista;
-		int cont = 0;
-		int a;
-		cont = 0;
-		while(aux!=null) {
-			if(aux.getFecha().compareTo(inicio)>=0 && aux.getFecha().compareTo(fin)<=0) {
-				NodoPosicion nodo = aux.getListaCoordenadas();
-				while(nodo!=null) {
-					cont = cont + 1;
-					nodo = nodo.getSiguiente();
-				}				
-				aux = aux.getSiguiente();
-			}else {
-				aux=aux.getSiguiente();
-			}
-		}
-		return cont;
+		return contarEntreDosInstantes(inicio, fin, nodo -> 1);
 	}
 	
 	
