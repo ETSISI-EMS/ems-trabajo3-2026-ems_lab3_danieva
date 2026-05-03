@@ -20,10 +20,9 @@ public class NodoPosicion {
 		super();
 		siguiente = null;
 	}
+	// En NodoTemporal
 
-	
-	
-	
+
 	public NodoPosicion(Coordenada coordenada,  int numPersonas, NodoPosicion siguiente) {
 		super();
 		this.coordenada = coordenada;		
@@ -57,5 +56,5 @@ public class NodoPosicion {
 	public void setSiguiente(NodoPosicion siguiente) {
 		this.siguiente = siguiente;
 	}
-	
+
 }
